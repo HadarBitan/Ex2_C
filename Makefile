@@ -1,17 +1,17 @@
 
-.PHONY: all
+.PHONY: all clean
 
-all: lib.a main.o
-	gcc -Wall -g -o connections main.o my_mat.o
+all: connections
+	
 
 connections: lib.a main.o
-	gcc -Wall -g -o main.o my_mat.o connections
+	gcc -Wall -g connections -o main.o my_mat.o 
 
 lib.a: my_mat.o
 	gcc rcs -o lib.a my_mat.o
 
 my_mat.o: my_mat.c my_mat.h
-	gcc -Wall -g) -c my_mat.c 
+	gcc -Wall -g -c my_mat.c 
 
 main.o: main.c my_mat.h
 	gcc -Wall -g -c main.c
