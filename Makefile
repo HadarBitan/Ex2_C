@@ -24,4 +24,4 @@ run:
 
 
 clean:
-	rm -f *.o *.a *.so *.out
+	rm -f *.o *.a *.so *.out connections

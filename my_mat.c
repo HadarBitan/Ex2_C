@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdbool.h>
 #define N 10
-#define global int mat[N][N]
 #define MAX 20000000
 
 int min(int a, int b)
@@ -13,15 +12,14 @@ int min(int a, int b)
     return b;
 }
 
-void create_matrix()
+void create_matrix(int mat[N][N])
 {
-    global;
     for(int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
             scanf(" %d",&mat[i][j]);
-            if(mat[i][j]==0 && i!=j)
+            if(mat[i][j] == 0 && i != j)
             {
                 mat[i][j]= MAX;
             }            
@@ -29,42 +27,54 @@ void create_matrix()
     }
 }
 
-void Floyd_Warshall_algorithm(int p)
+int Floyd_Warshall_algorithm(int u, int v, int mat[N][N])
 {   
-    global;
+    int dist[N][N];
     for (int i = 0; i < N; i++)
     {
-        for(int j=0; j<N; j++)
+        for (int j = 0; j < N; j++)
         {
-            if(i==j)
-            {
-                mat[i][j]=0;
-            }
-            else 
-            {
-                if(i==p || j==p)
-                {
-                    continue;
-                }
-                else
-                {
-                    mat[i][j] = min(mat[i][j], (mat[i][p] + mat[p][j]));
-                }
-            }
+            dist[i][j] = mat[i][j];
         }
     }
+
+    for (int k = 0; k < N; k++)
+    {    
+        for (int i = 0; i < N; i++)
+        {
+            for(int j=0; j<N; j++)
+            {
+                if(i==j)
+                {
+                    dist[i][j]=0;
+                }
+                else 
+                {
+                    if(i==k || j==k)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        dist[i][j] = min(dist[i][j], (dist[i][k] + dist[k][j]));
+                    }
+                }
+            }
+        } 
+    }
+    if (dist[u][v] >=  MAX ||  u==v)
+    {
+        return -1;
+    }
+    return  dist[u][v];
 }
 
-void check_path()
+void check_path(int mat[N][N])
 {
-    global;
     int i,j;
     scanf(" %d %d", &i,&j);
-    for(int p=0;p<N;p++)
-    {
-        Floyd_Warshall_algorithm(p);
-    }
-    if(mat[i][j]==0 || mat[i][j]==MAX)
+    int ans = Floyd_Warshall_algorithm(i, j, mat);
+    if(ans == -1)
     {
         printf("False\n");
     }
@@ -74,22 +84,17 @@ void check_path()
     }         
 }
 
-void printPath()
+void printPath(int mat[N][N])
 {
-    global;
     int i,j;
     scanf(" %d %d", &i,&j);
-    for(int p=0;p<N;p++)
-    {
-        Floyd_Warshall_algorithm(p);
-    }
-    if(mat[i][j]==0 || mat[i][j]==MAX)
+    int ans = Floyd_Warshall_algorithm(i, j, mat);
+    if(ans == -1)
     {
         printf("-1\n");
     }
     else
     {
-        printf("%d\n", mat[i][j]);
+        printf("%d\n", ans);
     }
 }
-
