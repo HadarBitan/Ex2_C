@@ -12,6 +12,7 @@ int min(int a, int b)
     }
     return b;
 }
+
 void create_matrix()
 {
     global;
@@ -39,13 +40,16 @@ void Floyd_Warshall_algorithm(int p)
             {
                 mat[i][j]=0;
             }
-            else if(i==p || j==p)
+            else 
             {
-                continue;
-            }
-            else
-            {
-                mat[i][j]=min(mat[i][j],(mat[i][p]+mat[p][j]));
+                if(i==p || j==p)
+                {
+                    continue;
+                }
+                else
+                {
+                    mat[i][j] = min(mat[i][j], (mat[i][p] + mat[p][j]));
+                }
             }
         }
     }
@@ -85,7 +89,7 @@ void printPath()
     }
     else
     {
-        printf("%d\n", &mat[i][j]);
+        printf("%d\n", mat[i][j]);
     }
 }
 
