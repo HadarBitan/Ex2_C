@@ -5,7 +5,7 @@ all: connections
 	
 
 connections: lib.a main.o
-	gcc -Wall -g connections -o main.o my_mat.o 
+	gcc -Wall -g -o connections main.o my_mat.o 
 
 lib.a: my_mat.o
 	gcc rcs -o lib.a my_mat.o
